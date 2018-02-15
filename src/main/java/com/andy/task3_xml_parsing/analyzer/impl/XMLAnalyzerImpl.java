@@ -13,13 +13,13 @@ public class XMLAnalyzerImpl implements Analyzer {
     private InputStream xml;
     private AnalyzerHelper analyzerHelper;
     private Node node;
-    byte[] symbols;
+    private byte[] symbols;
     private NodeContentCleaner nodeContentCleaner;
     private boolean end;
 
-    private final int SYMBOLS_SIZE = 10;
-    private final int FILE_END = -1;
-    private final int OFFSET = 0;
+    private final static int SYMBOLS_SIZE = 10;
+    private final static int FILE_END = -1;
+    private final static int OFFSET = 0;
 
 
     public XMLAnalyzerImpl(InputStream xml) throws IOException {
@@ -36,17 +36,16 @@ public class XMLAnalyzerImpl implements Analyzer {
         while (true) {
 
             if (node == null) {
+
                 if (xml.read(symbols, OFFSET, SYMBOLS_SIZE) == FILE_END){
                     end = true;
                 }
             }
 
-            node = analyzerHelper.help(symbols);
+            node = analyzerHelper.analyzeSymbols(symbols);
 
             if (node != null) {
-                node.setContent(nodeContentCleaner.clean(node.getContent()).trim());
-
-                if (node.getContent().length() != 0) {
+                if (nodeContentCleaner.getCleanNode(node).getContent().length() != 0){
                     return node;
                 }
             }
