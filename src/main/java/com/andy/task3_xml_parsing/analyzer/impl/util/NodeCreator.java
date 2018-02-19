@@ -6,11 +6,9 @@ public class NodeCreator {
 
     private boolean continueTegBlock;
     private boolean continueContentBlock;
-    private Node node;
 
     private StringBuilder content = new StringBuilder();
-    private ContextCreator contextCreator = new ContextCreator();
-    private TagType tagType = new TagType();
+    private ContentCreator contentCreator = new ContentCreator();
 
     private final static char LEFT_BRACKET = '<';
     private final static char RIGHT_BRACKET = '>';
@@ -21,11 +19,9 @@ public class NodeCreator {
 
             continueTegBlock = true;
 
-            if ((content = contextCreator.getContext(element, RIGHT_BRACKET)) != null){
+            if ((content = contentCreator.getContent(element, RIGHT_BRACKET)) != null){
                 continueTegBlock = false;
-                node = new Node(Node.NodeType.valueOf(tagType.getTagType(content)), content.toString());
-                content.setLength(0);
-                return node;
+                return getNode();
             }
         }
 
@@ -33,14 +29,18 @@ public class NodeCreator {
 
             continueContentBlock = true;
 
-            if ((content = contextCreator.getContext(element, LEFT_BRACKET)) != null){
+            if ((content = contentCreator.getContent(element, LEFT_BRACKET)) != null){
                 continueContentBlock = false;
-                node = new Node(Node.NodeType.valueOf(tagType.getTagType(content)), content.toString());
-                content.setLength(0);
-                return node;
+                return getNode();
             }
         }
 
         return null;
+    }
+
+    private Node getNode() {
+        Node node = new Node(Node.NodeType.valueOf(TagType.getTagType(content)), content.toString());
+        content.setLength(0);
+        return node;
     }
 }

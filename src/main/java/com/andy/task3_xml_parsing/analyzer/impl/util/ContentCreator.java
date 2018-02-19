@@ -1,11 +1,11 @@
 package com.andy.task3_xml_parsing.analyzer.impl.util;
 
-public class ContextCreator {
+public class ContentCreator {
 
     private boolean newTag = false;
     private StringBuilder content = new StringBuilder();
 
-    public StringBuilder getContext(char contentPart, char limit) {
+    public StringBuilder getContent(char contentPart, char limit) {
 
         if (newTag){
             content.setLength(0);

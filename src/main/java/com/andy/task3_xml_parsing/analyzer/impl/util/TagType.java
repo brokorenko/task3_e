@@ -7,7 +7,7 @@ public class TagType {
     private final static String FORWARD_SLASH = "/";
     private final static int ELEMENT_AFTER_BRACKET = 1;
 
-    public String getTagType(StringBuilder content){
+    public static String getTagType(StringBuilder content){
 
         if (content.indexOf(RIGHT_BRACKET) != EMPTY_RESULT){
             return  "TEG_CONTENT";
